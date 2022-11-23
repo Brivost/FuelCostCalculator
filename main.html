@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Fuel Cost Calculator</title>
+        <link rel="stylesheet" type="text/css" href="./styles.css">
+        <script type="text/javascript" src="./brains.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">     
+        </script>
+    </head>
+    <body>
+        <div style="text-align: center">
+            <h1>
+                Fuel Cost Calculator
+            </h1>
+            <hr>
+            <div class="text">
+                <h2>
+                    Vehicle Info
+                </h2>
+                <select onchange="yearFunction()" name="year" id="year">
+                    <option value="year">Year</option>
+                </select>
+                <select onchange="makeFunction()" name="make" id="make" disabled>
+                    <option value="make">Make</option>
+                </select>
+                <select name="model" id="model" disabled>
+                    <option value="model">Model</option>
+                </select>       
+                <select name="options" id="options" disabled>
+                    <option value="options">Options</option>
+                </select>         
+                <p>or</p>
+                <label for="fuelEcon">Fuel Economy:</label>
+                <input type="text" id="fuelEcon" name="fuelEcon">
+                <select name="fuelEconUnits" id="fuelEconUnits">
+                    <option value="mpg">MPG</option>
+                    <option value="L100Km">L/100 Km</option>
+                    <option value="L100Km">Km/L</option>
+                </select> 
+                <br>
+                <br>
+                <hr>
+                <h2>
+                    Trip Info
+                </h2>   
+                <label for="startingPoint">Starting point:</label>         
+                <input type="text" id="startingPoint" name="startingPoint">
+                <label for="destination">Destination:</label>         
+                <input type="text" id="destination" name="destination">
+                <p>or</p>
+                <label for="distance">Distance:</label>
+                <input type="text" id="distance" name="distance">
+                <select name="distanceUnits" id="distanceUnits">
+                    <option value="mi">miles</option>
+                    <option value="km">kilometers</option>
+                </select>
+                <br>
+                <br>
+                <hr>
+                <h2>
+                    Fuel Info
+                </h2>
+                <label for="customFuelPrice">Fuel Price ($/gallon):</label>
+                <input type="text" id="customFuelPrice" name="customFuelPrice">
+                <p>or</p>
+                <label for="fuelPrice">Check to use average fuel price:</label>
+                <input type="checkbox" id="fuelPrice" name="fuelPrice">
+                <br>
+                <br>
+                <hr>
+                <br>
+                <button onclick="calculate()">Calculate fuel cost:</button>
+                <p id="fuelCost" style="display:inline">Fuel cost: </p>
+            </div>
+        </div>
+    </body>
+</html>
