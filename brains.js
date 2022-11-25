@@ -3,6 +3,7 @@ function yearFunction() {
     const yearSelect = document.getElementById('year');
     const makeSelect = document.getElementById('make');
     const modelSelect = document.getElementById('model');
+    const optionsSelect = document.getElementById('options');
 
     removeAllButFirstOption(makeSelect);
     removeAllButFirstOption(modelSelect);
@@ -14,9 +15,11 @@ function yearFunction() {
         makeSelect.disabled = false;
         getMakes(yearSelect.value);
     }
+    makeSelect.value = 'make';
     modelSelect.disabled = true;
     modelSelect.value = "model";
-    makeSelect.value = 'make';
+    optionsSelect.disabled = true;
+    optionsSelect.value = 'options';
 }
 
 function makeFunction() {
@@ -24,6 +27,7 @@ function makeFunction() {
     const yearSelect = document.getElementById('year');
     const makeSelect = document.getElementById('make');
     const modelSelect = document.getElementById('model');
+    const optionsSelect = document.getElementById('options');
         
     removeAllButFirstOption(modelSelect);
 
@@ -35,12 +39,33 @@ function makeFunction() {
         getModels(yearSelect.value, makeSelect.value);
     }
     modelSelect.value = "model";
+    optionsSelect.disabled = true;
+    optionsSelect.value = 'options';
+}
+
+function modelFunction() {
+
+    const yearSelect = document.getElementById('year');
+    const makeSelect = document.getElementById('make');
+    const modelSelect = document.getElementById('model');
+    const optionsSelect = document.getElementById('options');
+
+    removeAllButFirstOption(optionsSelect);
+
+    if (modelSelect.value == 'model'){
+        optionsSelect.disabled = true;
+    }
+    else {
+        optionsSelect.disabled = false;
+        getOptions(yearSelect.value, makeSelect.value, modelSelect.value);
+    }
+    optionsSelect.value = 'options';
 }
 
 function removeAllButFirstOption(select){
-		for (var i = select.options.length; i>=1; i--) {
-            select.remove(i);
-        }
+    for (var i = select.options.length-1; i>=1; i--) {
+        select.remove(i);
+    }
 }
 
 function calculate() {
@@ -48,17 +73,7 @@ function calculate() {
     fuelCost.style.display = "block";
 }
 
-function addMakeOptions(makes) {
-    const makeSelect = document.getElementById('make');
-    for (var i = 0; i<makes.length; i++){
-        var option = document.createElement('option');
-        option.value = makes[i];
-        option.text = makes[i];
-        makeSelect.add(option);
-    }
-}
-
-function addYearOptions(years) {
+function addYears(years) {
     const yearSelect = document.getElementById('year');
     for (var i=0; i<years.length; i++) {
         var option = document.createElement("option");
@@ -68,13 +83,33 @@ function addYearOptions(years) {
     }
 }
 
-function addModelOptions(models) {
+function addMakes(makes) {
+    const makeSelect = document.getElementById('make');
+    for (var i = 0; i<makes.length; i++){
+        var option = document.createElement('option');
+        option.value = makes[i];
+        option.text = makes[i];
+        makeSelect.add(option);
+    }
+}
+
+function addModels(models) {
     const modelSelect = document.getElementById('model');
     for (var i = 0; i<models.length; i++) {
         var option = document.createElement('option');
         option.value = models[i];
         option.text = models[i];
         modelSelect.add(option);
+    }
+}
+
+function addOptions(options) {
+    const optionsSelect = document.getElementById('options');
+    for (var i = 0; i<options.length; i++) {
+        var option = document.createElement('option');
+        option.value = options[i];
+        option.text = options[i];
+        optionsSelect.add(option);
     }
 }
 
@@ -89,7 +124,7 @@ function getYears(){
             for (var i=0; i<result.menuItem.length; i++){
                 years[i] = result.menuItem[i].text;
             }
-            addYearOptions(years);
+            addYears(years);
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
@@ -107,10 +142,15 @@ function getMakes(year){
         dataType: "json",
         success: function(result)
         {
-            for (var i=0; i<result.menuItem.length; i++){
-                makes[i]= result.menuItem[i].text;
+            if (result.menuItem.length) {
+                for (var i=0; i<result.menuItem.length; i++){
+                    makes[i]= result.menuItem[i].text;
+                }
             }
-            addMakeOptions(makes);
+            else {
+                makes[0] = result.menuItem.text;
+            }
+            addMakes(makes);
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
@@ -128,10 +168,41 @@ function getModels(year, make){
         dataType: "json",
         success: function(result)
         {
-            for (var i=0; i<result.menuItem.length; i++){
-                models[i]= result.menuItem[i].text;
+            if (result.menuItem.length) {
+                for (var i=0; i<result.menuItem.length; i++){
+                    models[i]= result.menuItem[i].text;
+                }
             }
-            addModelOptions(models);
+            else {
+                models[0] = result.menuItem.text;
+            }
+            addModels(models);
+        },
+        error: function(xhr, ajaxOptions, thrownError)
+        {
+            console.log(xhr.status);
+            console.log(thrownError);
+        }
+    }); 
+}
+
+function getOptions(year, make, model){
+    var options = [];
+    jQuery.ajax({
+        url: `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${year}&make=${make}&model=${model}`,
+        type: "GET",
+        dataType: "json",
+        success: function(result)
+        {
+            if (result.menuItem.length) {
+                for (var i=0; i<result.menuItem.length; i++){
+                    options[i]= result.menuItem[i].text;
+                }
+            }
+            else {
+                options[0] = result.menuItem.text;
+            }
+            addOptions(options);
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
