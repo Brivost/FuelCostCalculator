@@ -275,9 +275,10 @@ function clearLastMPG() {
 // between inputs if there are multiple for the same 
 // piece of information (e.g. user filled out drop-down
 // boxes for vehicle, but also manually filled out MPG field)
-function calculateCost() {
-    const fuelCost = document.getElementById('fuelCost');
-    fuelCost.style.display = "block";
+function calculate() {
+    fuelCost = document.getElementById("fuelCost");
+    fuelCost.innerHTML = "Fuel Cost: Hi";
+
 }
 
 // Prevents users from entering non-numbers into number fields
