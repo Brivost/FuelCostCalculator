@@ -6,3 +6,11 @@ body {
     display:inline-block;
     text-align:left;
 }
+
+.input-error{
+    outline: 1px solid red;
+  }
+
+.calculationOutput {
+    text-align: center;
+}

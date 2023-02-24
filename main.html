@@ -27,11 +27,12 @@
                 <select onchange="modelFunction()" name="model" id="model" disabled>
                     <option value="model">Model</option>
                 </select>       
-                <select onchange="optionsFunction()" name="options" id="options" disabled>
+                <select onchange="optionsFunction()"name="options" id="options" disabled>
                     <option value="options">Options</option>
-]                </select>         
+                </select>
+                <p id="fuelEconVehicle" disabled></p>         
                 <p>or</p>
-                <label for="fuelEcon">Fuel Economy:</label>
+                <label for="fuelEconInput">Fuel Economy:</label>
                 <input type="text" id="fuelEcon" name="fuelEcon">
                 <select name="fuelEconUnits" id="fuelEconUnits">
                     <option value="mpg">MPG</option>
@@ -64,14 +65,16 @@
                 <label for="customFuelPrice">Fuel Price ($/gallon):</label>
                 <input type="text" id="customFuelPrice" name="customFuelPrice">
                 <p>or</p>
-                <label for="fuelPrice">Check to use average fuel price:</label>
+                <label for="fuelPrice">Check to use national average fuel price:</label>
                 <input type="checkbox" id="fuelPrice" name="fuelPrice">
                 <br>
                 <br>
                 <hr>
                 <br>
-                <button onclick="calculate()">Calculate fuel cost:</button>
-                <p id="fuelCost" style="display:inline">Fuel cost: </p>
+                <div class="calculationOutput">
+                    <button onclick="calculate()">Calculate Fuel Cost</button>
+                    <p>Fuel cost: </p>
+                </div>
             </div>
         </div>
     </body>
