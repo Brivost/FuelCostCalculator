@@ -11,6 +11,7 @@ function yearFunction() {
 
     removeAllButFirstOption(makeSelect);
     removeAllButFirstOption(modelSelect);
+    clearLastMPG();
 
     if (yearSelect.value == "year" ){
         makeSelect.disabled = true;
@@ -34,6 +35,7 @@ function makeFunction() {
     const optionsSelect = document.getElementById('options');
         
     removeAllButFirstOption(modelSelect);
+    clearLastMPG();
 
     if (makeSelect.value == "make"){
         modelSelect.disabled = true;
@@ -49,17 +51,18 @@ function makeFunction() {
 
 function modelFunction() {
 
-    const yearSelect = document.getElementById('year');
-    const makeSelect = document.getElementById('make');
     const modelSelect = document.getElementById('model');
     const optionsSelect = document.getElementById('options');
 
     removeAllButFirstOption(optionsSelect);
+    clearLastMPG();
 
     if (modelSelect.value == 'model'){
         optionsSelect.disabled = true;
     }
     else {
+        const makeSelect = document.getElementById('make');
+        const yearSelect = document.getElementById('year');
         optionsSelect.disabled = false;
         getOptions(yearSelect.value, makeSelect.value, modelSelect.value);
     }
@@ -74,6 +77,9 @@ function optionsFunction() {
         vehicleID = optionsSelect.options[optionsSelect.selectedIndex].value
 
         getMPG(vehicleID);
+    }
+    else {
+        clearLastMPG();
     }
 }
 
@@ -243,12 +249,11 @@ function getMPG(vehicleID) {
         dataType: "json",
         success: function(result)
         {
-            const fuelEconText = document.getElementById('fuelEconVehicle');
+            const fuelEconVehicle = document.getElementById('fuelEconVehicle');
 
             var mpg = Number.parseFloat(result.comb08U).toFixed(1);
 
-            fuelEconText.innerHTML = `Fuel Economy of your car: ${mpg} MPG`;
-            fuelEconText.disabled = false;
+            fuelEconVehicle.innerHTML = `Fuel Economy of your car: ${mpg} MPG`;
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
@@ -256,6 +261,23 @@ function getMPG(vehicleID) {
             console.log(thrownError);
         }
     });   
+}
+
+//Clear last MPG in vehicle info section, if there is one
+function clearLastMPG() {
+    const fuelEconVehicle = document.getElementById('fuelEconVehicle');
+    fuelEconVehicle.innerHTML = "";
+}
+
+// Use MPG info, distance info, and fuel price info 
+// to calculate the cost of the trip. Checks whether 
+// all required inputs are present, and decides
+// between inputs if there are multiple for the same 
+// piece of information (e.g. user filled out drop-down
+// boxes for vehicle, but also manually filled out MPG field)
+function calculateCost() {
+    const fuelCost = document.getElementById('fuelCost');
+    fuelCost.style.display = "block";
 }
 
 // Prevents users from entering non-numbers into number fields
@@ -285,17 +307,6 @@ function setInputFilter(textbox, inputFilter, errMsg) {
             }
         });
     });
-}
-
-// Use MPG info, distance info, and fuel price info 
-// to calculate the cost of the trip. Checks whether 
-// all required inputs are present, and decides
-// between inputs if there are multiple for the same 
-// piece of information (e.g. user filled out drop-down
-// boxes for vehicle, but also manually filled out MPG field)
-function calculateCost() {
-    const fuelCost = document.getElementById('fuelCost');
-    fuelCost.style.display = "block";
 }
 
 // Things to do once the window loads
