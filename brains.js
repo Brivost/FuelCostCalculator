@@ -249,11 +249,33 @@ function getMPG(vehicleID) {
         dataType: "json",
         success: function(result)
         {
-            const fuelEconVehicle = document.getElementById('fuelEconVehicle');
-
+            const fuelEconVehicleText = document.getElementById('fuelEconVehicleText');
+            const fuelEconVehicleNumber = document.getElementById('fuelEconVehicleNumber');
+            const fuelEconVehicleUnit = document.getElementById('fuelEconVehicleUnit');
+            
             var mpg = Number.parseFloat(result.comb08U).toFixed(1);
 
-            fuelEconVehicle.innerHTML = `Fuel Economy of your car: ${mpg} MPG`;
+            // Split this into two <p> so that we can directly access fuel economy number
+            fuelEconVehicleText.innerHTML = "Fuel economy of your vehicle: ";
+            fuelEconVehicleNumber.innerHTML = `${mpg}`;
+            fuelEconVehicleUnit.innerHTML = ` MPG`;
+        },
+        error: function(xhr, ajaxOptions, thrownError)
+        {
+            console.log(xhr.status);
+            console.log(thrownError);
+        }
+    });   
+}
+
+function getFuelPrice() {
+    jQuery.ajax({
+        url: `https://www.gas-cost.net/syndicate_usd.php?lang=en`,
+        type: "GET",
+        dataType: "json",
+        success: function(result)
+        {
+            console.log(result);
         },
         error: function(xhr, ajaxOptions, thrownError)
         {
@@ -265,8 +287,12 @@ function getMPG(vehicleID) {
 
 //Clear last MPG in vehicle info section, if there is one
 function clearLastMPG() {
-    const fuelEconVehicle = document.getElementById('fuelEconVehicle');
-    fuelEconVehicle.innerHTML = "";
+    const fuelEconVehicleNumber = document.getElementById('fuelEconVehicleNumber');
+    const fuelEconVehicleText = document.getElementById('fuelEconVehicleText');
+    const fuelEconVehicleUnit = document.getElementById('fuelEconVehicleUnit');
+    fuelEconVehicleNumber.innerHTML = "";
+    fuelEconVehicleText.innerHTML = "";
+    fuelEconVehicleUnit.innerHTML = "";
 }
 
 // Use MPG info, distance info, and fuel price info 
@@ -277,8 +303,13 @@ function clearLastMPG() {
 // boxes for vehicle, but also manually filled out MPG field)
 function calculate() {
     fuelCost = document.getElementById("fuelCost");
-    fuelCost.innerHTML = "Fuel Cost: Hi";
+    fuelEconVehicleNumber = document.getElementById("fuelEconVehicleNumber").innerHTML;
+    distance = document.getElementById("distance").value;
+    const fuelPrice = 3;
 
+    const cost = distance / fuelEconVehicleNumber * fuelPrice;
+
+    fuelCost.innerHTML = `Fuel Cost: $${cost.toFixed(2)}`;
 }
 
 // Prevents users from entering non-numbers into number fields
@@ -313,6 +344,7 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 // Things to do once the window loads
 window.addEventListener('load', (event) => {
     getYears();
+    getFuelPrice();
 
     setInputFilter(document.getElementById("fuelEcon"), 
     function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
