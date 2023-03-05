@@ -1,3 +1,4 @@
+
 // yearFunction, makeFunction, modelFunction, and optionsFunction
 // react when a user changes an input in one of the drop-down boxes.
 // These call the "get" functions and also erase selections if a user
