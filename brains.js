@@ -1,3 +1,4 @@
+// import scrapeGasPrice from "./scrape.js";
 
 // yearFunction, makeFunction, modelFunction, and optionsFunction
 // react when a user changes an input in one of the drop-down boxes.
@@ -269,23 +270,6 @@ function getMPG(vehicleID) {
     });   
 }
 
-function getFuelPrice() {
-    jQuery.ajax({
-        url: `https://www.gas-cost.net/syndicate_usd.php?lang=en`,
-        type: "GET",
-        dataType: "json",
-        success: function(result)
-        {
-            console.log(result);
-        },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
-            console.log(xhr.status);
-            console.log(thrownError);
-        }
-    });   
-}
-
 //Clear last MPG in vehicle info section, if there is one
 function clearLastMPG() {
     const fuelEconVehicleNumber = document.getElementById('fuelEconVehicleNumber');
@@ -345,7 +329,6 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 // Things to do once the window loads
 window.addEventListener('load', (event) => {
     getYears();
-    getFuelPrice();
 
     setInputFilter(document.getElementById("fuelEcon"), 
     function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
