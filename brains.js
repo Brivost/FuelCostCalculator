@@ -1,5 +1,3 @@
-// import scrapeGasPrice from "./scrape.js";
-
 // yearFunction, makeFunction, modelFunction, and optionsFunction
 // react when a user changes an input in one of the drop-down boxes.
 // These call the "get" functions and also erase selections if a user
@@ -280,6 +278,18 @@ function clearLastMPG() {
     fuelEconVehicleUnit.innerHTML = "";
 }
 
+function getFuelPrice() {
+    $.get('http://api.scrapestack.com/scrape',
+    {
+    access_key: 'fe0b04fa4176906b4713879e65aee6e7',
+    url: 'https://scrapestack.com'
+    },
+    function(websiteContent) {
+        console.log(websiteContent);
+    }
+    );
+}
+
 // Use MPG info, distance info, and fuel price info 
 // to calculate the cost of the trip. Checks whether 
 // all required inputs are present, and decides
@@ -341,6 +351,8 @@ window.addEventListener('load', (event) => {
     setInputFilter(document.getElementById("customFuelPrice"), 
     function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
     "Please enter a number");
+
+    getFuelPrice();
 
 });
 
