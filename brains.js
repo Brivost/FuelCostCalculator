@@ -13,7 +13,7 @@ function yearFunction() {
     removeAllButFirstOption(modelSelect);
     clearLastMPG();
 
-    if (yearSelect.value == "year" ){
+    if (yearSelect.value == "year") {
         makeSelect.disabled = true;
     }
     else {
@@ -33,11 +33,11 @@ function makeFunction() {
     const makeSelect = document.getElementById('make');
     const modelSelect = document.getElementById('model');
     const optionsSelect = document.getElementById('options');
-        
+
     removeAllButFirstOption(modelSelect);
     clearLastMPG();
 
-    if (makeSelect.value == "make"){
+    if (makeSelect.value == "make") {
         modelSelect.disabled = true;
     }
     else {
@@ -57,7 +57,7 @@ function modelFunction() {
     removeAllButFirstOption(optionsSelect);
     clearLastMPG();
 
-    if (modelSelect.value == 'model'){
+    if (modelSelect.value == 'model') {
         optionsSelect.disabled = true;
     }
     else {
@@ -86,38 +86,35 @@ function optionsFunction() {
 // getYears, getMakes, getModels, and getOptions make API calls
 // to a vehicle database to gather information about possible
 // vehicle choices. These grab call the "add" functions.
-function getYears(){
+function getYears() {
     var years = [];
     $.ajax({
         url: `https://www.fueleconomy.gov/ws/rest/vehicle/menu/year`,
         type: "GET",
         dataType: "json",
-        success: function(result)
-        {
-            for (var i=0; i<result.menuItem.length; i++){
+        success: function (result) {
+            for (var i = 0; i < result.menuItem.length; i++) {
                 years[i] = result.menuItem[i].text;
             }
             addYears(years);
         },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
+        error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
         }
     });
 }
 
-function getMakes(year){
+function getMakes(year) {
     var makes = [];
     $.ajax({
         url: `https://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year=${year}`,
         type: "GET",
         dataType: "json",
-        success: function(result)
-        {
+        success: function (result) {
             if (result.menuItem.length) {
-                for (var i=0; i<result.menuItem.length; i++){
-                    makes[i]= result.menuItem[i].text;
+                for (var i = 0; i < result.menuItem.length; i++) {
+                    makes[i] = result.menuItem[i].text;
                 }
             }
             else {
@@ -125,25 +122,23 @@ function getMakes(year){
             }
             addMakes(makes);
         },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
+        error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
         }
     });
 }
 
-function getModels(year, make){
+function getModels(year, make) {
     var models = [];
     jQuery.ajax({
         url: `https://www.fueleconomy.gov/ws/rest/vehicle/menu/model?year=${year}&make=${make}`,
         type: "GET",
         dataType: "json",
-        success: function(result)
-        {
+        success: function (result) {
             if (result.menuItem.length) {
-                for (var i=0; i<result.menuItem.length; i++){
-                    models[i]= result.menuItem[i].text;
+                for (var i = 0; i < result.menuItem.length; i++) {
+                    models[i] = result.menuItem[i].text;
                 }
             }
             else {
@@ -151,26 +146,24 @@ function getModels(year, make){
             }
             addModels(models);
         },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
+        error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
         }
-    }); 
+    });
 }
 
-function getOptions(year, make, model){
+function getOptions(year, make, model) {
     var options = [];
     var optionID = [];
     jQuery.ajax({
         url: `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${year}&make=${make}&model=${model}`,
         type: "GET",
         dataType: "json",
-        success: function(result)
-        {
+        success: function (result) {
             if (result.menuItem.length) {
-                for (var i=0; i<result.menuItem.length; i++){
-                    options[i]= result.menuItem[i].text;
+                for (var i = 0; i < result.menuItem.length; i++) {
+                    options[i] = result.menuItem[i].text;
                     optionID[i] = result.menuItem[i].value;
                 }
             }
@@ -180,12 +173,11 @@ function getOptions(year, make, model){
             }
             addOptions(options, optionID);
         },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
+        error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
         }
-    }); 
+    });
 }
 
 // addYears, addMakes, addModels, and addOptions add the 
@@ -193,7 +185,7 @@ function getOptions(year, make, model){
 // the drop-down boxes.
 function addYears(years) {
     const yearSelect = document.getElementById('year');
-    for (var i=0; i<years.length; i++) {
+    for (var i = 0; i < years.length; i++) {
         var option = document.createElement("option");
         option.value = years[i];
         option.text = years[i];
@@ -203,7 +195,7 @@ function addYears(years) {
 
 function addMakes(makes) {
     const makeSelect = document.getElementById('make');
-    for (var i = 0; i<makes.length; i++){
+    for (var i = 0; i < makes.length; i++) {
         var option = document.createElement('option');
         option.value = makes[i];
         option.text = makes[i];
@@ -213,7 +205,7 @@ function addMakes(makes) {
 
 function addModels(models) {
     const modelSelect = document.getElementById('model');
-    for (var i = 0; i<models.length; i++) {
+    for (var i = 0; i < models.length; i++) {
         var option = document.createElement('option');
         option.value = models[i];
         option.text = models[i];
@@ -223,7 +215,7 @@ function addModels(models) {
 
 function addOptions(options, optionID) {
     const optionsSelect = document.getElementById('options');
-    for (var i = 0; i<options.length; i++) {
+    for (var i = 0; i < options.length; i++) {
         var option = document.createElement('option');
         option.value = optionID[i];
         option.text = options[i];
@@ -233,8 +225,8 @@ function addOptions(options, optionID) {
 
 // Clear the drop-down boxes if a user goes back
 // to change one of their choices
-function removeAllButFirstOption(select){
-    for (var i = select.options.length-1; i>=1; i--) {
+function removeAllButFirstOption(select) {
+    for (var i = select.options.length - 1; i >= 1; i--) {
         select.remove(i);
     }
 }
@@ -247,12 +239,11 @@ function getMPG(vehicleID) {
         url: `https://www.fueleconomy.gov/ws/rest/vehicle/${vehicleID}`,
         type: "GET",
         dataType: "json",
-        success: function(result)
-        {
+        success: function (result) {
             const fuelEconVehicleText = document.getElementById('fuelEconVehicleText');
             const fuelEconVehicleNumber = document.getElementById('fuelEconVehicleNumber');
             const fuelEconVehicleUnit = document.getElementById('fuelEconVehicleUnit');
-            
+
             var mpg = Number.parseFloat(result.comb08U).toFixed(1);
 
             // Split this into two <p> so that we can directly access fuel economy number
@@ -260,12 +251,11 @@ function getMPG(vehicleID) {
             fuelEconVehicleNumber.innerHTML = `${mpg}`;
             fuelEconVehicleUnit.innerHTML = ` MPG`;
         },
-        error: function(xhr, ajaxOptions, thrownError)
-        {
+        error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
         }
-    });   
+    });
 }
 
 //Clear last MPG in vehicle info section, if there is one
@@ -278,15 +268,24 @@ function clearLastMPG() {
     fuelEconVehicleUnit.innerHTML = "";
 }
 
+// Scrape AAA for gas price
+// Body -> main -> div class=container mob-cont -> 
+// div class=tblwrap -> div class=table-mob -> tbody -> tr -> td
 function getFuelPrice() {
     $.get('http://api.scrapestack.com/scrape',
-    {
-    access_key: 'fe0b04fa4176906b4713879e65aee6e7',
-    url: 'https://scrapestack.com'
-    },
-    function(websiteContent) {
-        console.log(websiteContent);
-    }
+        {
+            access_key: 'fe0b04fa4176906b4713879e65aee6e7',
+            url: 'https://gasprices.aaa.com/'
+        },
+        function (websiteContent) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(websiteContent, "text/html");
+
+            var pele = doc.getElementsByTagName('td');
+
+            var avg = pele[1].innerHTML;
+            console.log(avg);
+        }
     );
 }
 
@@ -300,7 +299,7 @@ function calculate() {
     fuelCost = document.getElementById("fuelCost");
     fuelEconVehicleNumber = document.getElementById("fuelEconVehicleNumber").innerHTML;
     distance = document.getElementById("distance").value;
-    const fuelPrice = 3;
+    fuelPrice = document.getElementById("fuelPriceNumber").innerHTML;
 
     const cost = distance / fuelEconVehicleNumber * fuelPrice;
 
@@ -309,50 +308,46 @@ function calculate() {
 
 // Prevents users from entering non-numbers into number fields
 function setInputFilter(textbox, inputFilter, errMsg) {
-    ["input", "keydown", "keyup", "mousedown", "mouseup", 
-    "select", "contextmenu", "drop", "focusout"].forEach(function(event) {
-        textbox.addEventListener(event, function(e) {
-            if (inputFilter(this.value)) {
-            // Accepted value
-            if (["keydown","mousedown","focusout"].indexOf(e.type) >= 0){
-                this.classList.remove("input-error");
-                this.setCustomValidity("");
-            }
-            this.oldValue = this.value;
-            this.oldSelectionStart = this.selectionStart;
-            this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-            // Rejected value - restore the previous one
-            this.classList.add("input-error");
-            this.setCustomValidity(errMsg);
-            this.reportValidity();
-            this.value = this.oldValue;
-            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-            } else {
-            // Rejected value - nothing to restore
-            this.value = "";
-            }
+    ["input", "keydown", "keyup", "mousedown", "mouseup",
+        "select", "contextmenu", "drop", "focusout"].forEach(function (event) {
+            textbox.addEventListener(event, function (e) {
+                if (inputFilter(this.value)) {
+                    // Accepted value
+                    if (["keydown", "mousedown", "focusout"].indexOf(e.type) >= 0) {
+                        this.classList.remove("input-error");
+                        this.setCustomValidity("");
+                    }
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    // Rejected value - restore the previous one
+                    this.classList.add("input-error");
+                    this.setCustomValidity(errMsg);
+                    this.reportValidity();
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    // Rejected value - nothing to restore
+                    this.value = "";
+                }
+            });
         });
-    });
 }
 
 // Things to do once the window loads
 window.addEventListener('load', (event) => {
     getYears();
 
-    setInputFilter(document.getElementById("fuelEcon"), 
-    function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
-    "Please enter a number");
+    setInputFilter(document.getElementById("distance"),
+        function (value) { return /^-?\d*[.,]?\d*$/.test(value); },
+        "Please enter a number");
 
-    setInputFilter(document.getElementById("distance"), 
-    function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
-    "Please enter a number");
+    setInputFilter(document.getElementById("customFuelPrice"),
+        function (value) { return /^-?\d*[.,]?\d*$/.test(value); },
+        "Please enter a number");
 
-    setInputFilter(document.getElementById("customFuelPrice"), 
-    function(value) {return /^-?\d*[.,]?\d*$/.test(value); },
-    "Please enter a number");
-
-    getFuelPrice();
+    // getFuelPrice();
 
 });
 
