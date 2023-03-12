@@ -247,7 +247,6 @@ function getMPG(vehicleID) {
             var mpg = Number.parseFloat(result.comb08U).toFixed(1);
 
             // Split this into two <p> so that we can directly access fuel economy number
-            fuelEconVehicleText.innerHTML = "Fuel economy of your vehicle: ";
             fuelEconVehicleNumber.innerHTML = `${mpg}`;
             fuelEconVehicleUnit.innerHTML = ` MPG`;
         },
@@ -261,10 +260,8 @@ function getMPG(vehicleID) {
 //Clear last MPG in vehicle info section, if there is one
 function clearLastMPG() {
     const fuelEconVehicleNumber = document.getElementById('fuelEconVehicleNumber');
-    const fuelEconVehicleText = document.getElementById('fuelEconVehicleText');
     const fuelEconVehicleUnit = document.getElementById('fuelEconVehicleUnit');
     fuelEconVehicleNumber.innerHTML = "";
-    fuelEconVehicleText.innerHTML = "";
     fuelEconVehicleUnit.innerHTML = "";
 }
 
