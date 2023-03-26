@@ -57,18 +57,13 @@
             <h2>
                 Trip Info
             </h2>
-            <label for="startingPoint">Starting point:</label>
-            <input type="text" id="startingPoint" name="startingPoint">
-            <label for="destination">Destination:</label>
-            <input type="text" id="destination" name="destination">
-            <p>or</p>
-            
+            <p>Enter your starting place and destination</p>            
+            <div id="map"></div>
             <script
             src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
             <link rel="stylesheet"
             href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
             type="text/css">
-            <div id="map" style='width: 100%; height: 300px;'></div>
             <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9tbWFwcGVyZ3V5IiwiYSI6ImNsZjV4b2tpdzFnbmEzeWxoMmR0YWFuanUifQ.rnWdivazxaLZd2vM8aia5w';
             const map = new mapboxgl.Map({
@@ -89,7 +84,8 @@
             map.addControl(new mapboxgl.NavigationControl());
             </script>
 
-            <label for="distance">Distance:</label>
+            <p>or</p>
+            <label for="distance">Enter your own distance:</label>
             <input type="text" id="distance" name="distance">
             <select name="distanceUnits" id="distanceUnits">
                 <option value="mi">miles</option>
