@@ -265,6 +265,32 @@ function clearLastMPG() {
     fuelEconVehicleUnit.innerHTML = "";
 }
 
+// Once user has put in starting place and destination into map,
+// grab the distance
+function getMapDistance() {
+
+    const mapDistanceNumber = document.getElementById('mapDistanceNumber');
+    const mapDistanceUnit = document.getElementById('mapDistanceUnit');
+
+    var el = document.getElementsByClassName('mapbox-directions-component mapbox-directions-route-summary');
+
+    if (el.length == 0) { // If there is no distance, clear the last distance
+        mapDistanceNumber.innerHTML = '';
+        mapDistanceUnit.innerHTML = '';
+    }
+    else {
+        const parser = new DOMParser();
+        const output = parser.parseFromString(el[0].innerHTML, "text/html");
+
+        var miles = output.getElementsByTagName('h1');
+        // Get rid of 'mi' text and just retain actual number
+        miles = miles[0].innerHTML.split('mi');
+
+        mapDistanceNumber.innerHTML = miles[0];
+        mapDistanceUnit.innerHTML = 'miles';
+    }
+}
+
 // Scrape AAA for gas price
 // Body -> main -> div class=container mob-cont -> 
 // div class=tblwrap -> div class=table-mob -> tbody -> tr -> td
@@ -343,6 +369,10 @@ window.addEventListener('load', (event) => {
     setInputFilter(document.getElementById("customFuelPrice"),
         function (value) { return /^-?\d*[.,]?\d*$/.test(value); },
         "Please enter a number");
+
+    var mapIsFilledOut = false;
+    var el = document.getElementsByClassName('directions-control directions-control-instructions');
+    el[0].addEventListener('DOMSubtreeModified', getMapDistance, false);
 
     // getFuelPrice();
 
