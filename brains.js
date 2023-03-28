@@ -312,6 +312,69 @@ function getFuelPrice() {
     );
 }
 
+// Check whether user has filled out vehicle info
+function checkVehicleInfo() {
+    fuelEconVehicleNumber = document.getElementById("fuelEconVehicleNumber").innerHTML;
+    vehicleInfoWarning = document.getElementById("vehicleInfoWarning");
+
+    if (fuelEconVehicleNumber == "") {
+        vehicleInfoWarning.style.display = "block";
+        return false;
+    }
+    else {
+        vehicleInfoWarning.style.display = "none";
+        return true;
+    }
+}
+
+// Check whether user has filled out trip info
+function checkTripInfo() {
+    mapDistanceNumber = document.getElementById("mapDistanceNumber").innerHTML;
+    userInputDistanceNumber = document.getElementById("userInputDistanceNumber").value;
+    tripInfoWarning = document.getElementById("tripInfoWarning");
+
+    if (mapDistanceNumber == "" && userInputDistanceNumber == "") {
+        tripInfoWarning.style.display = "block";
+        return false;
+    }
+    else {
+        tripInfoWarning.style.display = "none";
+        return true;
+    }
+}
+
+// Check whether user has filled out fuel price info
+function checkFuelInfo() {
+    customFuelPrice = document.getElementById("customFuelPrice").value;
+    averageFuelPrice = document.getElementById("averageFuelPrice");
+    fuelInfoWarning = document.getElementById("fuelInfoWarning");
+
+    if (customFuelPrice == "" && !averageFuelPrice.checked) {
+        fuelInfoWarning.style.display = "block";
+        return false;
+    }
+    else {
+        fuelInfoWarning.style.display = "none";
+        return true;
+    }
+}
+
+function checkInfo() {
+
+    const vehicleInfoPresent = checkVehicleInfo();
+    const tripInfoPresent = checkTripInfo();
+    const fuelInfoPresent = checkFuelInfo();
+
+    checkInfoWarning = document.getElementById("checkInfoWarning");
+
+    if (vehicleInfoPresent && tripInfoPresent && fuelInfoPresent) {
+        checkInfoWarning.style.display = "none";
+    }
+    else {
+        checkInfoWarning.style.display = "block";
+    }
+}
+
 // Use MPG info, distance info, and fuel price info 
 // to calculate the cost of the trip. Checks whether 
 // all required inputs are present, and decides
@@ -319,6 +382,9 @@ function getFuelPrice() {
 // piece of information (e.g. user filled out drop-down
 // boxes for vehicle, but also manually filled out MPG field)
 function calculate() {
+
+    checkInfo();
+
     fuelCost = document.getElementById("fuelCost");
     fuelEconVehicleNumber = document.getElementById("fuelEconVehicleNumber").innerHTML;
     distance = document.getElementById("distance").value;
@@ -362,7 +428,7 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 window.addEventListener('load', (event) => {
     getYears();
 
-    setInputFilter(document.getElementById("distance"),
+    setInputFilter(document.getElementById("userInputDistanceNumber"),
         function (value) { return /^-?\d*[.,]?\d*$/.test(value); },
         "Please enter a number");
 
@@ -370,7 +436,6 @@ window.addEventListener('load', (event) => {
         function (value) { return /^-?\d*[.,]?\d*$/.test(value); },
         "Please enter a number");
 
-    var mapIsFilledOut = false;
     var el = document.getElementsByClassName('directions-control directions-control-instructions');
     el[0].addEventListener('DOMSubtreeModified', getMapDistance, false);
 

@@ -22,6 +22,7 @@
         </h1>
         <hr>
         <div class="text">
+
             <h2>
                 Vehicle Info
             </h2>
@@ -38,12 +39,13 @@
                 <option value="options">Options</option>
             </select>
             <p></p>
-            <p style="margin: 0; display: inline;" id="fuelEconVehicleText">Fuel economy of your vehicle: </p>
-            <p style="margin: 0; display: inline;" id="fuelEconVehicleNumber"></p>
-            <p style="margin: 0; display: inline;" id="fuelEconVehicleUnit"></p>
-            <br>
-            <br>
+            <p style="display: inline;" id="fuelEconVehicleText">Fuel economy of your vehicle: </p>
+            <p style="display: inline;" id="fuelEconVehicleNumber"></p>
+            <p style="display: inline;" id="fuelEconVehicleUnit"></p>
+            <p class="checkWarning" id="vehicleInfoWarning">Enter your vehicle info please</p>
+            <p></p>
             <hr>
+
             <h2>
                 Trip Info
             </h2>
@@ -51,43 +53,43 @@
 
             <div id="map"></div>
             <script
-            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+                src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
             <link rel="stylesheet"
-            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
-            type="text/css">
+                href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+                type="text/css">
             <script>
-            mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9tbWFwcGVyZ3V5IiwiYSI6ImNsZjV4b2tpdzFnbmEzeWxoMmR0YWFuanUifQ.rnWdivazxaLZd2vM8aia5w';
-            const map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-95, 39],
-                zoom: 2
-            });
-            map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
-            map.addControl(
-                new MapboxDirections({
-                    accessToken: mapboxgl.accessToken,
-                    profile: 'mapbox/driving',
-                    annotations: 'distance',
-                }), 'top-left'
-            );
-            map.addControl(new mapboxgl.NavigationControl());
+                mapboxgl.accessToken = 'pk.eyJ1IjoicmFuZG9tbWFwcGVyZ3V5IiwiYSI6ImNsZjV4b2tpdzFnbmEzeWxoMmR0YWFuanUifQ.rnWdivazxaLZd2vM8aia5w';
+                const map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/streets-v11',
+                    center: [-95, 39],
+                    zoom: 2
+                });
+                map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
+                map.addControl(
+                    new MapboxDirections({
+                        accessToken: mapboxgl.accessToken,
+                        profile: 'mapbox/driving',
+                        annotations: 'distance',
+                    }), 'top-left'
+                );
+                map.addControl(new mapboxgl.NavigationControl());
             </script>
             <p></p>
             <p style="display: inline;" id="mapDistanceText">Your trip distance:</p>
             <p style="display: inline;" id="mapDistanceNumber"></p>
             <p style="display: inline;" id="mapDistanceUnit"></p>
-
             <p>or</p>
             <label for="distance">Enter your own distance:</label>
-            <input type="text" id="distance" name="distance">
-            <select name="distanceUnits" id="distanceUnits">
+            <input type="text" id="userInputDistanceNumber" name="userInputDistanceNumber">
+            <select name="userInputDistanceUnits" id="userInputDistanceUnits">
                 <option value="mi">miles</option>
                 <option value="km">kilometers</option>
             </select>
-            <br>
-            <br>
+            <p class="checkWarning" id="tripInfoWarning">Enter your trip info please</p>
+            <p></p>
             <hr>
+
             <h2>
                 Fuel Info
             </h2>
@@ -97,13 +99,15 @@
             <label for="fuelPrice">Check to use national average fuel price ($</label>
             <p style="margin: 0; display: inline;" id="fuelPriceNumber">3.47</p>
             <p style="margin: 0; display: inline;">)</p>
-            <input type="checkbox" id="fuelPrice" name="fuelPrice">
-            <br>
-            <br>
+            <input type="checkbox" id="averageFuelPrice" name="averageFuelPrice">
+            <p class="checkWarning" id="fuelInfoWarning">Enter your fuel info please</p>
+            <p></p>
             <hr>
+
             <br>
             <div class="calculationOutput">
                 <button onclick="calculate()">Calculate Fuel Cost</button>
+                <p class="checkWarning" id="checkInfoWarning">Enter info above</p>
                 <p id="fuelCost">Fuel cost: </p>
             </div>
         </div>
