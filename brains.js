@@ -359,7 +359,8 @@ function checkFuelInfo() {
     }
 }
 
-function checkInfo() {
+// Check whether all required inputs are present
+function infoPresent() {
 
     const vehicleInfoPresent = checkVehicleInfo();
     const tripInfoPresent = checkTripInfo();
@@ -369,9 +370,42 @@ function checkInfo() {
 
     if (vehicleInfoPresent && tripInfoPresent && fuelInfoPresent) {
         checkInfoWarning.style.display = "none";
+        return true;
     }
     else {
         checkInfoWarning.style.display = "block";
+        return false;
+    }
+}
+
+// Get MPG of vehicle
+function getVehicleMPG() {
+    return document.getElementById("fuelEconVehicleNumber").innerHTML;
+}
+
+// Decide between possible multiple inputs for distance
+function getDistance() {
+    mapDistanceNumber = document.getElementById("mapDistanceNumber").innerHTML;
+    userInputDistanceNumber = document.getElementById("userInputDistanceNumber").value;
+
+    if (userInputDistanceNumber != "") {
+        return userInputDistanceNumber;
+    }
+    else {
+        return mapDistanceNumber;
+    }
+}
+
+// Decide between possible multiple inputs for fuel price
+function getFuelPrice() {
+    customFuelPrice = document.getElementById("customFuelPrice").value;
+    fuelPriceNumber = document.getElementById("fuelPriceNumber").innerHTML;
+
+    if (customFuelPrice != "") {
+        return customFuelPrice;
+    }
+    else {
+        return fuelPriceNumber;
     }
 }
 
@@ -383,16 +417,15 @@ function checkInfo() {
 // boxes for vehicle, but also manually filled out MPG field)
 function calculate() {
 
-    checkInfo();
+    if (infoPresent()) {
+        const MPG = getVehicleMPG();
+        const distance = getDistance();
+        const fuelPrice = getFuelPrice();
 
-    fuelCost = document.getElementById("fuelCost");
-    fuelEconVehicleNumber = document.getElementById("fuelEconVehicleNumber").innerHTML;
-    distance = document.getElementById("distance").value;
-    fuelPrice = document.getElementById("fuelPriceNumber").innerHTML;
+        const cost = distance / MPG * fuelPrice;
 
-    const cost = distance / fuelEconVehicleNumber * fuelPrice;
-
-    fuelCost.innerHTML = `Fuel Cost: $${cost.toFixed(2)}`;
+        fuelCost.innerHTML = `Fuel Cost: $${cost.toFixed(2)}`;
+    }
 }
 
 // Prevents users from entering non-numbers into number fields
